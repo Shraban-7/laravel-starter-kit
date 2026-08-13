@@ -30,7 +30,7 @@ class CacheInstaller extends AbstractInstaller
         if ($store === 'redis') {
             $context->setEnv('REDIS_HOST', '127.0.0.1');
             $context->setEnv('REDIS_PORT', '6379');
-            $context->requirePackage('predis/predis', '^2.0');
+            $context->requireCompatiblePackage('predis/predis');
         }
     }
 }

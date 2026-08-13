@@ -298,10 +298,12 @@ PHP);
 
     private function livewire(StarterContext $context, string $model): void
     {
-        $context->filesystem->put($context->backendPath("app/Livewire/{$model}s/Index.php"), <<<PHP
+        $directory = $context->config->livewireDirectory();
+        $namespace = $context->config->livewireNamespace();
+        $context->filesystem->put($context->backendPath("{$directory}/{$model}s/Index.php"), <<<PHP
 <?php
 
-namespace App\\Livewire\\{$model}s;
+namespace {$namespace}\\{$model}s;
 
 use Livewire\\Component;
 

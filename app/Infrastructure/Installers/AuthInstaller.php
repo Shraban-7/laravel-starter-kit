@@ -23,7 +23,7 @@ class AuthInstaller extends AbstractInstaller
         $parts = array_map('trim', explode('+', str_replace(' ', '', $auth)));
 
         if (in_array('sanctum', $parts, true)) {
-            $context->requirePackage('laravel/sanctum', '^4.0');
+            $context->requireCompatiblePackage('laravel/sanctum');
             $context->setEnv('SANCTUM_STATEFUL_DOMAINS', 'localhost,127.0.0.1');
             $this->writeBackend($context, 'config/cors.php', <<<'PHP'
 <?php
@@ -38,16 +38,16 @@ PHP);
         }
 
         if (in_array('passport', $parts, true)) {
-            $context->requirePackage('laravel/passport', '^13.0');
+            $context->requireCompatiblePackage('laravel/passport');
             $this->writeBackend($context, 'docs/oauth.md', "# Passport\n\nOAuth2 authorization code, client credentials, refresh tokens, and personal access tokens.\n\nOnly use Passport when you need OAuth2. Prefer Sanctum for first-party SPA/API authentication.\n");
         }
 
         if (in_array('breeze', $parts, true)) {
-            $context->requirePackage('laravel/breeze', '^2.0');
+            $context->requireCompatiblePackage('laravel/breeze');
         }
 
         if (in_array('fortify', $parts, true)) {
-            $context->requirePackage('laravel/fortify', '^1.0');
+            $context->requireCompatiblePackage('laravel/fortify');
         }
 
         foreach ($context->config->authGuards as $guard) {

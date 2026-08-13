@@ -3,6 +3,7 @@
 namespace App\Presentation\Wizard;
 
 use App\Domain\Architecture\ArchitectureRegistry;
+use App\Domain\Config\LaravelVersion;
 use App\Domain\Config\StarterConfig;
 use App\Domain\Preset\PresetRegistry;
 
@@ -56,10 +57,14 @@ class NewProjectWizard
             default: $architecture === 'mvc' ? [] : ['service'],
         );
 
+        $php = $provided['php'] ?? select('PHP version', ['8.0', '8.1', '8.2', '8.3', '8.4', '8.5'], '8.3');
+        $laravelOptions = LaravelVersion::supportedForPhp((string) $php);
+        $laravelDefault = LaravelVersion::latestForPhp((string) $php);
+
         return StarterConfig::fromArray(array_merge([
             'name' => $name,
-            'php' => $provided['php'] ?? select('PHP version', ['8.1', '8.2', '8.3', '8.4', '8.5'], '8.3'),
-            'laravel' => $provided['laravel'] ?? select('Laravel version', ['13', '12', '11', '10'], '13'),
+            'php' => $php,
+            'laravel' => $provided['laravel'] ?? select('Laravel version', $laravelOptions, $laravelDefault),
             'architecture' => $architecture,
             'patterns' => $patterns,
             'api' => $provided['api'] ?? select('Backend / API', ['none' => 'No API', 'rest' => 'REST API', 'rest-openapi' => 'REST API + OpenAPI'], 'none'),

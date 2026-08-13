@@ -2,6 +2,7 @@
 
 namespace App\Infrastructure\Installers;
 
+use App\Domain\Config\PackageConstraint;
 use App\Domain\Config\StarterConfig;
 use App\Domain\Config\StarterContext;
 
@@ -22,18 +23,20 @@ class QualityInstaller extends AbstractInstaller
         $tools = $context->config->codeQuality;
 
         if (in_array('pint', $tools, true)) {
-            $context->requireDevPackage('laravel/pint', '^1.0');
+            $context->requireCompatibleDevPackage('laravel/pint');
             $this->writeBackend($context, 'pint.json', json_encode(['preset' => 'laravel'], JSON_PRETTY_PRINT)."\n");
         }
 
         if (in_array('phpstan', $tools, true) || in_array('larastan', $tools, true)) {
-            $context->requireDevPackage('larastan/larastan', '^3.0');
-            $this->writeBackend($context, 'phpstan.neon', "includes:\n    - vendor/larastan/larastan/extension.neon\nparameters:\n    level: 6\n    paths:\n        - app\n");
+            $packages = PackageConstraint::for($context->config);
+            $context->requireCompatibleDevPackage($packages->phpstanPackage());
+            $this->writeBackend($context, 'phpstan.neon', "includes:\n    - {$packages->phpstanExtension()}\nparameters:\n    level: 6\n    paths:\n        - app\n");
         }
 
         if (in_array('rector', $tools, true)) {
-            $context->requireDevPackage('rector/rector', '^2.0');
-            $this->writeBackend($context, 'rector.php', "<?php\n\nuse Rector\\Config\\RectorConfig;\n\nreturn RectorConfig::configure()->withPaths([__DIR__.'/app']);\n");
+            $packages = PackageConstraint::for($context->config);
+            $context->requireCompatibleDevPackage('rector/rector');
+            $this->writeBackend($context, 'rector.php', $packages->rectorConfig()."\n");
         }
 
         if (in_array('eslint', $tools, true)) {

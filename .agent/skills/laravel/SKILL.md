@@ -1,7 +1,7 @@
 ---
 name: laravel
 description: >-
-  Laravel 10+ backend conventions for this starter kit and generated apps.
+  Laravel 9+ backend conventions for this starter kit and generated apps.
   Use when writing PHP, Eloquent, migrations, Form Requests, policies, jobs,
   notifications, APIs, Pest tests, or Artisan commands.
 ---
@@ -12,7 +12,7 @@ Follow Laravel-native APIs. Do not invent parallel frameworks.
 
 ## Defaults
 
-- Target the project's Laravel major from `starter.json` or `composer.json` (`^10`–`^13`).
+- Target the project's Laravel major from `starter.json` or `composer.json` (`^9`–`^13`).
 - Thin controllers: HTTP in, call an action/service, HTTP out.
 - Validate with Form Requests. Authorize with policies/gates.
 - Mass-assign via `$fillable` or `$guarded`. Never disable CSRF globally.

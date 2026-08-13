@@ -19,7 +19,7 @@ class SocialAuthInstaller extends AbstractInstaller
 
     public function install(StarterContext $context): void
     {
-        $context->requirePackage('laravel/socialite', '^5.0');
+        $context->requireCompatiblePackage('laravel/socialite');
         $this->ensureDir($context, 'app/Social');
 
         $this->writeBackend($context, 'app/Social/SocialProvider.php', <<<'PHP'

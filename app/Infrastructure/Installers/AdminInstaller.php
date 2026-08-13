@@ -20,8 +20,10 @@ class AdminInstaller extends AbstractInstaller
     public function install(StarterContext $context): void
     {
         if ($context->config->admin === 'filament') {
-            $context->requirePackage('filament/filament', '^4.0');
-            $this->writeBackend($context, 'app/Providers/Filament/AdminPanelProvider.php', <<<'PHP'
+            $context->requireCompatiblePackage('filament/filament');
+
+            if ((int) $context->config->laravelMajor() >= 10) {
+                $this->writeBackend($context, 'app/Providers/Filament/AdminPanelProvider.php', <<<'PHP'
 <?php
 
 namespace App\Providers\Filament;
@@ -36,6 +38,22 @@ class AdminPanelProvider extends PanelProvider
         return $panel->id('admin')->path('admin')->login();
     }
 }
+PHP);
+
+                return;
+            }
+
+            $this->writeBackend($context, 'config/filament.php', <<<'PHP'
+<?php
+
+return [
+    'path' => 'admin',
+    'domain' => null,
+    'home_url' => '/',
+    'auth' => [
+        'guard' => 'web',
+    ],
+];
 PHP);
 
             return;

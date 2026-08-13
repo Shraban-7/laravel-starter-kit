@@ -3,6 +3,7 @@
 namespace App\Infrastructure\Laravel;
 
 use App\Domain\Config\LaravelVersion;
+use App\Domain\Config\PackageConstraint;
 use App\Domain\Config\StarterConfig;
 use App\Infrastructure\Filesystem\ProjectFilesystem;
 
@@ -15,11 +16,11 @@ class FakeLaravelProjectCreator implements LaravelProjectCreator
         $filesystem->put('composer.json', json_encode([
             'name' => 'laravel/laravel',
             'require' => [
-                'php' => LaravelVersion::phpConstraint($config->laravelVersion),
+                'php' => LaravelVersion::phpConstraint($config->phpVersion),
                 'laravel/framework' => '^'.$config->laravelMajor().'.0',
             ],
             'require-dev' => [
-                'phpunit/phpunit' => '^12.0',
+                'phpunit/phpunit' => PackageConstraint::for($config)->get('phpunit/phpunit'),
             ],
             'autoload' => [
                 'psr-4' => [

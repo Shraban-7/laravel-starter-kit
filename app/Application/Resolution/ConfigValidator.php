@@ -48,8 +48,12 @@ class ConfigValidator
             $errors[] = 'PHP 8.3 or higher is required to run the generator.';
         }
 
+        if (! LaravelVersion::isSupportedPhp($config->phpVersion)) {
+            $errors[] = "Unsupported PHP version [{$config->phpVersion}]. Generated apps require PHP 8.0 or higher.";
+        }
+
         if (! LaravelVersion::isSupported($config->laravelVersion)) {
-            $errors[] = "Unsupported Laravel version [{$config->laravelVersion}]. Supported: 10, 11, 12, 13, latest.";
+            $errors[] = "Unsupported Laravel version [{$config->laravelVersion}]. Supported: 9, 10, 11, 12, 13, latest.";
         }
 
         if (LaravelVersion::isSupported($config->laravelVersion)

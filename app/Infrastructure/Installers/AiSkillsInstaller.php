@@ -141,7 +141,7 @@ MD;
     private function stackGuide(StarterConfig $config): string
     {
         return match ($config->frontend) {
-            'livewire' => "## Livewire\n\nComponents in `app/Livewire`. Prefer Livewire actions over custom JS for mutations.",
+            'livewire' => "## Livewire\n\nComponents in `{$config->livewireDirectory()}`. Prefer Livewire actions over custom JS for mutations.",
             'inertia-react', 'inertia-vue', 'inertia-svelte' => "## Inertia\n\nPages in `resources/js/Pages`. Laravel is the router.",
             'react', 'vue' => "## SPA\n\nFeature modules under `features/`. Use `services/api/client` with credentials.",
             'next' => "## Next.js\n\nApp Router. Laravel is the API (`NEXT_PUBLIC_API_URL`). CRUD lives in `app/{resource}/`.",

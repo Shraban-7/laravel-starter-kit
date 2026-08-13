@@ -40,6 +40,24 @@ class StarterContext
         $this->composerDevPackages[$package] = $constraint;
     }
 
+    public function requireCompatiblePackage(string $package): void
+    {
+        $constraint = PackageConstraint::for($this->config)->get($package);
+
+        if ($constraint !== null) {
+            $this->requirePackage($package, $constraint);
+        }
+    }
+
+    public function requireCompatibleDevPackage(string $package): void
+    {
+        $constraint = PackageConstraint::for($this->config)->get($package);
+
+        if ($constraint !== null) {
+            $this->requireDevPackage($package, $constraint);
+        }
+    }
+
     public function requireNpm(string $package, string $constraint = 'latest'): void
     {
         $this->npmPackages[$package] = $constraint;

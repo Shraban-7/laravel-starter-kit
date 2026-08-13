@@ -5,6 +5,7 @@ namespace App\Application\Planning;
 use App\Application\Recommendation\PatternRecommender;
 use App\Application\Resolution\ConflictResolver;
 use App\Application\Resolution\DependencyResolver;
+use App\Domain\Config\PackageConstraint;
 use App\Domain\Config\StarterConfig;
 use App\Domain\Feature\FeatureRegistry;
 
@@ -31,8 +32,9 @@ class PlanBuilder
             }
 
             $definition = $this->features->get($id);
-            $packages = [...$packages, ...$definition->packages];
-            $devPackages = [...$devPackages, ...$definition->devPackages];
+            $constraints = PackageConstraint::for($config);
+            $packages = [...$packages, ...$constraints->map($definition->packages)];
+            $devPackages = [...$devPackages, ...$constraints->map($definition->devPackages)];
             $env = [...$env, ...$definition->env];
 
             if ($definition->installer && class_exists($definition->installer)) {

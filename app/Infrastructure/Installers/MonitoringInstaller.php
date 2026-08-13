@@ -22,11 +22,11 @@ class MonitoringInstaller extends AbstractInstaller
         $items = $context->config->monitoring;
 
         if (in_array('telescope', $items, true)) {
-            $context->requireDevPackage('laravel/telescope', '^5.0');
+            $context->requireCompatibleDevPackage('laravel/telescope');
         }
 
         if (in_array('sentry', $items, true)) {
-            $context->requirePackage('sentry/sentry-laravel', '^4.0');
+            $context->requireCompatiblePackage('sentry/sentry-laravel');
             $context->setEnv('SENTRY_LARAVEL_DSN', '');
         }
 

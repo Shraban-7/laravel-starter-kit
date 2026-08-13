@@ -4,6 +4,7 @@ namespace App\Commands;
 
 use App\Application\Config\ConfigLoader;
 use App\Application\Generation\GenerationPipeline;
+use App\Domain\Config\LaravelVersion;
 use App\Domain\Config\StarterConfig;
 use App\Presentation\Support\ConsoleGenerationPresenter;
 use App\Presentation\Wizard\NewProjectWizard;
@@ -16,8 +17,8 @@ class NewCommand extends Command
     protected $signature = 'new
         {name? : Application name}
         {--preset= : Preset id}
-        {--laravel= : Laravel version (10, 11, 12, 13, latest)}
-        {--php= : PHP version for the generated app}
+        {--laravel= : Laravel version (9, 10, 11, 12, 13, latest)}
+        {--php= : PHP version of the generated app (8.0–8.5)}
         {--frontend= : Frontend framework}
         {--api= : API style}
         {--database= : Database driver}
@@ -48,6 +49,10 @@ class NewCommand extends Command
         HTML);
 
         $provided = $this->providedOptions();
+
+        if (isset($provided['php']) && ! isset($provided['laravel'])) {
+            $provided['laravel'] = LaravelVersion::latestForPhp((string) $provided['php']);
+        }
 
         if ($this->option('config')) {
             $config = $loader->load((string) $this->option('config'));

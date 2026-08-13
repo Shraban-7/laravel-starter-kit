@@ -55,8 +55,9 @@ class DockerInstaller extends AbstractInstaller
         }
 
         $this->write($context, 'docker-compose.yml', $this->toYaml($compose));
-        $this->write($context, 'Dockerfile', <<<'DOCKER'
-FROM php:8.3-cli
+        $php = $context->config->phpVersion;
+        $this->write($context, 'Dockerfile', <<<DOCKER
+FROM php:{$php}-cli
 WORKDIR /var/www/html
 COPY . .
 CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]

@@ -70,6 +70,33 @@ it('generates a sqlite blade project with the fake creator', function () {
         ->and(is_file($destination.DIRECTORY_SEPARATOR.'.agent'.DIRECTORY_SEPARATOR.'skills'.DIRECTORY_SEPARATOR.'frontend'.DIRECTORY_SEPARATOR.'SKILL.md'))->toBeTrue();
 });
 
+it('generates a laravel 9 php 8.0 project', function () {
+    $destination = sys_get_temp_dir().DIRECTORY_SEPARATOR.'lsb-php80-'.uniqid();
+
+    $result = app(GenerationPipeline::class)->run(
+        StarterConfig::fromArray([
+            'name' => 'legacy',
+            'laravel' => '9',
+            'php' => '8.0',
+            'architecture' => 'mvc',
+            'frontend' => 'blade',
+            'database' => 'sqlite',
+            'testing' => ['pest'],
+            'codeQuality' => ['pint'],
+        ]),
+        new NullGenerationPresenter,
+        $destination,
+        assumeYes: true,
+    );
+
+    $composer = json_decode((string) file_get_contents($destination.DIRECTORY_SEPARATOR.'composer.json'), true);
+
+    expect($result->success)->toBeTrue()
+        ->and($composer['require']['php'])->toBe('^8.0')
+        ->and($composer['require']['laravel/framework'])->toBe('^9.0')
+        ->and($composer['require-dev']['pestphp/pest'] ?? null)->toBe('^1.22');
+});
+
 it('generates a next.js monorepo layout', function () {
     $destination = sys_get_temp_dir().DIRECTORY_SEPARATOR.'lsb-next-'.uniqid();
 

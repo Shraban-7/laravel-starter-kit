@@ -1,8 +1,9 @@
 # Laravel Starter Builder
 
-CLI project generator for Laravel 10, 11, 12, and 13. Inspired by Spring Initializr, the Laravel installer, and modern full-stack scaffolding.
+CLI project generator for Laravel 9–13 and PHP 8.0–8.5. Inspired by Spring Initializr, the Laravel installer, and modern full-stack scaffolding.
 
 ```bash
+php laravel-starter new shop --php=8.0 --frontend=blade --database=sqlite --dry-run
 php laravel-starter new shop --laravel=10 --php=8.2 --frontend=blade --database=sqlite --dry-run
 php laravel-starter new shop --laravel=13 --frontend=blade --database=sqlite --architecture=mvc-service --dry-run
 php laravel-starter new shop --preset=basic --no-interaction
@@ -10,6 +11,8 @@ php laravel-starter features
 php laravel-starter patterns
 php laravel-starter validate --config=starter.yaml
 ```
+
+`--php` sets the generated project’s PHP version. Every feature is available on PHP 8.0–8.5.
 
 Generate only what you select. No unused packages, directories, or patterns.
 
@@ -24,9 +27,17 @@ Generated apps also get `.agent/rules/` plus `AI_CONTEXT.md`.
 
 ## Requirements
 
-- PHP 8.3+ to run the generator
 - Composer 2
-- Generated apps: Laravel 10–13 (`--laravel=10|11|12|13|latest`)
+- Generated project: PHP 8.0–8.5 and Laravel 9–13
+
+| `--php` | Default Laravel | Available Laravel |
+|---|---|---|
+| 8.0 | 9 | 9 |
+| 8.1 | 10 | 9, 10 |
+| 8.2 | 11 | 9, 10, 11, 12 |
+| 8.3 | 13 | 10, 11, 12, 13 |
+| 8.4 | 13 | 11, 12, 13 |
+| 8.5 | 13 | 12, 13 |
 
 ## Commands
 

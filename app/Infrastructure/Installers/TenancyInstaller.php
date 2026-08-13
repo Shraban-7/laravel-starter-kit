@@ -20,7 +20,7 @@ class TenancyInstaller extends AbstractInstaller
     public function install(StarterContext $context): void
     {
         if ($context->config->tenancy === 'package') {
-            $context->requirePackage('stancl/tenancy', '^3.0');
+            $context->requireCompatiblePackage('stancl/tenancy');
         }
 
         $this->writeBackend($context, 'app/Models/Tenant.php', <<<'PHP'

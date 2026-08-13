@@ -20,8 +20,8 @@ class TestingInstaller extends AbstractInstaller
     public function install(StarterContext $context): void
     {
         if (in_array('pest', $context->config->testing, true)) {
-            $context->requireDevPackage('pestphp/pest', '^4.0');
-            $context->requireDevPackage('pestphp/pest-plugin-laravel', '^4.0');
+            $context->requireCompatibleDevPackage('pestphp/pest');
+            $context->requireCompatibleDevPackage('pestphp/pest-plugin-laravel');
             $this->writeBackend($context, 'tests/Feature/ExampleTest.php', <<<'PHP'
 <?php
 
@@ -50,7 +50,7 @@ PHP);
         }
 
         if (in_array('dusk', $context->config->testing, true)) {
-            $context->requireDevPackage('laravel/dusk', '^8.0');
+            $context->requireCompatibleDevPackage('laravel/dusk');
         }
 
         if (in_array('vitest', $context->config->testing, true)) {

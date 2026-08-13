@@ -113,7 +113,7 @@ PHP);
 
     private function stripe(StarterContext $context): void
     {
-        $context->requirePackage('laravel/cashier', '^15.0');
+        $context->requireCompatiblePackage('laravel/cashier');
         $context->setEnv('STRIPE_KEY', '');
         $context->setEnv('STRIPE_SECRET', '');
         $context->setEnv('STRIPE_WEBHOOK_SECRET', '');

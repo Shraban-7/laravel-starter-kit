@@ -24,7 +24,7 @@ class DtoInstaller extends AbstractInstaller
         $namespace = $layout->namespaceFor($layout->dtos());
 
         if ($context->config->dto === 'spatie') {
-            $context->requirePackage('spatie/laravel-data', '^4.0');
+            $context->requireCompatiblePackage('spatie/laravel-data');
         }
 
         $this->writeBackend($context, $layout->dtos().'/CreateUserData.php', <<<PHP

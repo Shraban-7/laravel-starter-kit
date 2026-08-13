@@ -19,7 +19,8 @@ class CicdInstaller extends AbstractInstaller
 
     public function install(StarterContext $context): void
     {
-        $script = <<<'YAML'
+        $php = $context->config->phpVersion;
+        $script = <<<YAML
 name: CI
 on:
   push:
@@ -32,7 +33,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.3'
+          php-version: '{$php}'
       - run: composer install --no-interaction
       - run: php artisan test --parallel
       - run: vendor/bin/pint --test
@@ -43,8 +44,8 @@ YAML;
         }
 
         if ($context->config->cicd === 'gitlab-ci' || $context->config->cicd === 'gitlab') {
-            $this->write($context, '.gitlab-ci.yml', <<<'YAML'
-image: php:8.3
+            $this->write($context, '.gitlab-ci.yml', <<<YAML
+image: php:{$php}
 stages: [test]
 test:
   stage: test

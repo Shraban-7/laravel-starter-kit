@@ -106,10 +106,17 @@ final class StarterConfig
         $testing = self::stringList($data['testing'] ?? ['pest']);
         $codeQuality = self::stringList($data['codeQuality'] ?? $data['code_quality'] ?? ['pint']);
 
+        $phpInput = $data['php'] ?? $data['phpVersion'] ?? null;
+        $laravelInput = $data['laravel'] ?? $data['laravelVersion'] ?? null;
+        [$laravelVersion, $phpVersion] = LaravelVersion::align(
+            $laravelInput !== null && $laravelInput !== '' ? (string) $laravelInput : null,
+            $phpInput !== null && $phpInput !== '' ? (string) $phpInput : null,
+        );
+
         return new self(
             name: (string) ($data['name'] ?? $data['application'] ?? 'app'),
-            phpVersion: (string) ($data['php'] ?? $data['phpVersion'] ?? '8.3'),
-            laravelVersion: LaravelVersion::normalize((string) ($data['laravel'] ?? $data['laravelVersion'] ?? '13')),
+            phpVersion: $phpVersion,
+            laravelVersion: $laravelVersion,
             architecture: (string) ($data['architecture'] ?? 'mvc'),
             patterns: $patterns,
             api: (string) $api,
@@ -245,6 +252,21 @@ final class StarterConfig
     public function usesModernBootstrap(): bool
     {
         return LaravelVersion::usesModernBootstrap($this->laravelVersion);
+    }
+
+    public function usesLivewireV3(): bool
+    {
+        return LaravelVersion::usesLivewireV3($this->laravelVersion);
+    }
+
+    public function livewireNamespace(): string
+    {
+        return LaravelVersion::livewireNamespace($this->laravelVersion);
+    }
+
+    public function livewireDirectory(): string
+    {
+        return LaravelVersion::livewireDirectory($this->laravelVersion);
     }
 
     /**

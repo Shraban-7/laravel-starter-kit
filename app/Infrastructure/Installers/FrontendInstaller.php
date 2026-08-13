@@ -58,13 +58,14 @@ BLADE);
 
     private function livewire(StarterContext $context): void
     {
-        $context->requirePackage('livewire/livewire', '^3.0');
+        $context->requireCompatiblePackage('livewire/livewire');
         $this->blade($context);
-        $this->ensureDir($context, 'app/Livewire');
-        $this->writeBackend($context, 'app/Livewire/Welcome.php', <<<'PHP'
+        $this->ensureDir($context, $context->config->livewireDirectory());
+        $namespace = $context->config->livewireNamespace();
+        $this->writeBackend($context, $context->config->livewireDirectory().'/Welcome.php', <<<PHP
 <?php
 
-namespace App\Livewire;
+namespace {$namespace};
 
 use Livewire\Component;
 
@@ -81,7 +82,7 @@ PHP);
 
     private function inertia(StarterContext $context): void
     {
-        $context->requirePackage('inertiajs/inertia-laravel', '^2.0');
+        $context->requireCompatiblePackage('inertiajs/inertia-laravel');
         $adapter = match ($context->config->frontend) {
             'inertia-vue' => 'vue',
             'inertia-svelte' => 'svelte',

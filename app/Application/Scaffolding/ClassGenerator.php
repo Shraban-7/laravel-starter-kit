@@ -56,10 +56,12 @@ class ClassGenerator
     public function page(StarterContext $context, string $name): void
     {
         $slug = $this->kebab($name);
+        $livewireDirectory = $context->config->livewireDirectory();
+        $livewireNamespace = $context->config->livewireNamespace();
         match ($context->config->frontend) {
             'next' => $context->filesystem->put($context->frontendPath()."/app/{$slug}/page.tsx", "export default function {$name}Page() { return <main>{$name}</main>; }\n"),
             'nuxt' => $context->filesystem->put($context->frontendPath()."/pages/{$slug}.vue", "<template><div>{$name}</div></template>\n"),
-            'livewire' => $context->filesystem->put($context->backendPath("app/Livewire/{$name}Page.php"), "<?php\n\nnamespace App\\Livewire;\n\nuse Livewire\\Component;\n\nclass {$name}Page extends Component\n{\n    public function render()\n    {\n        return view('livewire.{$slug}-page');\n    }\n}\n"),
+            'livewire' => $context->filesystem->put($context->backendPath("{$livewireDirectory}/{$name}Page.php"), "<?php\n\nnamespace {$livewireNamespace};\n\nuse Livewire\\Component;\n\nclass {$name}Page extends Component\n{\n    public function render()\n    {\n        return view('livewire.{$slug}-page');\n    }\n}\n"),
             default => $context->filesystem->put($context->backendPath("resources/views/{$slug}.blade.php"), "<h1>{$name}</h1>\n"),
         };
     }

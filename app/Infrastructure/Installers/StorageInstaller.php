@@ -28,7 +28,7 @@ class StorageInstaller extends AbstractInstaller
         }
 
         $context->setEnv('FILESYSTEM_DISK', 's3');
-        $context->requirePackage('league/flysystem-aws-s3-v3', '^3.0');
+        $context->requireCompatiblePackage('league/flysystem-aws-s3-v3');
 
         $endpoint = match ($disk) {
             'r2' => 'https://<accountid>.r2.cloudflarestorage.com',

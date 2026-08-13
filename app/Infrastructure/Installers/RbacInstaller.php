@@ -22,7 +22,7 @@ class RbacInstaller extends AbstractInstaller
         $roles = ['Admin', 'Manager', 'Vendor', 'Customer', 'Staff'];
 
         if ($context->config->rbac === 'spatie') {
-            $context->requirePackage('spatie/laravel-permission', '^6.0');
+            $context->requireCompatiblePackage('spatie/laravel-permission');
         }
 
         $this->writeBackend($context, 'database/seeders/RolePermissionSeeder.php', $this->seeder($roles, $context->config->rbac));

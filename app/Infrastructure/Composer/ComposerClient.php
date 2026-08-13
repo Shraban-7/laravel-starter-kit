@@ -2,6 +2,7 @@
 
 namespace App\Infrastructure\Composer;
 
+use App\Domain\Config\LaravelVersion;
 use App\Domain\Config\StarterContext;
 use Illuminate\Support\Facades\Process;
 use RuntimeException;
@@ -21,7 +22,7 @@ class ComposerClient
             return;
         }
 
-        $this->mergeJson($composer, $context->composerPackages, $context->composerDevPackages);
+        $this->mergeJson($composer, $context->composerPackages, $context->composerDevPackages, $context->config->phpVersion);
 
         if ($context->composerPackages !== []) {
             $this->run($path, 'composer update --no-interaction --no-ansi --with-dependencies');
@@ -32,11 +33,15 @@ class ComposerClient
      * @param  array<string, string>  $require
      * @param  array<string, string>  $requireDev
      */
-    public function mergeJson(string $composerFile, array $require, array $requireDev): void
+    public function mergeJson(string $composerFile, array $require, array $requireDev, ?string $phpVersion = null): void
     {
         $data = json_decode((string) file_get_contents($composerFile), true) ?? [];
         $data['require'] = [...($data['require'] ?? []), ...$require];
         $data['require-dev'] = [...($data['require-dev'] ?? []), ...$requireDev];
+
+        if ($phpVersion !== null && $phpVersion !== '') {
+            $data['require']['php'] = LaravelVersion::phpConstraint($phpVersion);
+        }
 
         file_put_contents(
             $composerFile,
