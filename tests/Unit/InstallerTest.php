@@ -8,6 +8,7 @@ use App\Domain\Config\OverwritePolicy;
 use App\Domain\Config\StarterConfig;
 use App\Domain\Config\StarterContext;
 use App\Infrastructure\Filesystem\ProjectFilesystem;
+use App\Infrastructure\Installers\FrontendInstaller;
 use App\Infrastructure\Installers\ServiceLayerInstaller;
 use App\Infrastructure\Laravel\FakeLaravelProjectCreator;
 use App\Infrastructure\Stubs\StubRenderer;
@@ -65,4 +66,38 @@ it('uses domain paths for ddd', function () {
 
     expect($layout->services())->toBe('app/Application/Services')
         ->and($layout->models())->toBe('app/Domain/Entities');
+});
+
+it('generates a showcase welcome with auth pages for blade', function () {
+    $context = starterContext(['frontend' => 'blade', 'architecture' => 'mvc']);
+    app(FrontendInstaller::class)->install($context);
+
+    expect($context->filesystem->exists('resources/views/welcome.blade.php'))->toBeTrue()
+        ->and($context->filesystem->get('resources/views/welcome.blade.php'))->toContain('Starter spec')
+        ->and($context->filesystem->exists('resources/views/auth/login.blade.php'))->toBeTrue()
+        ->and($context->filesystem->exists('resources/views/auth/register.blade.php'))->toBeTrue()
+        ->and($context->filesystem->exists('resources/views/dashboard.blade.php'))->toBeTrue()
+        ->and($context->filesystem->exists('resources/views/docs.blade.php'))->toBeTrue()
+        ->and($context->filesystem->get('routes/web.php'))->toContain('auth.login');
+});
+
+it('generates next.js welcome login register and dashboard pages', function () {
+    $context = starterContext([
+        'frontend' => 'next',
+        'frontendArchitecture' => 'monorepo',
+        'preset' => 'next',
+    ]);
+    $context->config = StarterConfig::fromArray([
+        'name' => 'store',
+        'frontend' => 'next',
+        'frontendArchitecture' => 'monorepo',
+    ]);
+    app(FrontendInstaller::class)->install($context);
+
+    expect($context->filesystem->exists('apps/frontend/app/page.tsx'))->toBeTrue()
+        ->and($context->filesystem->get('apps/frontend/app/page.tsx'))->toContain('Starter spec')
+        ->and($context->filesystem->exists('apps/frontend/app/login/page.tsx'))->toBeTrue()
+        ->and($context->filesystem->exists('apps/frontend/app/register/page.tsx'))->toBeTrue()
+        ->and($context->filesystem->exists('apps/frontend/app/dashboard/page.tsx'))->toBeTrue()
+        ->and($context->filesystem->exists('apps/frontend/app/docs/page.tsx'))->toBeTrue();
 });

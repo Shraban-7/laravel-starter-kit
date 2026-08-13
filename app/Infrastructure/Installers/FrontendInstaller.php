@@ -4,6 +4,7 @@ namespace App\Infrastructure\Installers;
 
 use App\Domain\Config\StarterConfig;
 use App\Domain\Config\StarterContext;
+use App\Infrastructure\Installers\Support\ShowcasePageWriter;
 
 class FrontendInstaller extends AbstractInstaller
 {
@@ -31,6 +32,31 @@ class FrontendInstaller extends AbstractInstaller
             'angular' => $this->angular($context),
             default => $this->blade($context),
         };
+
+        (new ShowcasePageWriter)->write($context);
+    }
+
+    public function plannedFiles($config): array
+    {
+        if ($config->frontend === 'next' || $config->usesMonorepoLayout()) {
+            return [
+                'apps/frontend/app/page.tsx',
+                'apps/frontend/app/login/page.tsx',
+                'apps/frontend/app/register/page.tsx',
+                'apps/frontend/app/dashboard/page.tsx',
+                'apps/frontend/app/docs/page.tsx',
+            ];
+        }
+
+        return [
+            'resources/views/welcome.blade.php',
+            'resources/views/docs.blade.php',
+            'resources/views/dashboard.blade.php',
+            'resources/views/auth/login.blade.php',
+            'resources/views/auth/register.blade.php',
+            'public/css/starter.css',
+            'routes/web.php',
+        ];
     }
 
     private function blade(StarterContext $context): void

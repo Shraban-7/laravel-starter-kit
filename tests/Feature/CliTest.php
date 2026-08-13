@@ -112,5 +112,6 @@ it('generates a next.js monorepo layout', function () {
 
     expect($result->success)->toBeTrue()
         ->and(is_file($destination.DIRECTORY_SEPARATOR.'apps'.DIRECTORY_SEPARATOR.'frontend'.DIRECTORY_SEPARATOR.'app'.DIRECTORY_SEPARATOR.'page.tsx'))->toBeTrue()
+        ->and(is_file($destination.DIRECTORY_SEPARATOR.'apps'.DIRECTORY_SEPARATOR.'frontend'.DIRECTORY_SEPARATOR.'app'.DIRECTORY_SEPARATOR.'login'.DIRECTORY_SEPARATOR.'page.tsx'))->toBeTrue()
         ->and(is_file($destination.DIRECTORY_SEPARATOR.'apps'.DIRECTORY_SEPARATOR.'backend'.DIRECTORY_SEPARATOR.'artisan'))->toBeTrue();
 });
