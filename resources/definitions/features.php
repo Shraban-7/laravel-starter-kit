@@ -2,6 +2,7 @@
 
 use App\Infrastructure\Installers\ActionInstaller;
 use App\Infrastructure\Installers\AdminInstaller;
+use App\Infrastructure\Installers\AiSkillsInstaller;
 use App\Infrastructure\Installers\ApiInstaller;
 use App\Infrastructure\Installers\ArchitectureInstaller;
 use App\Infrastructure\Installers\AuthInstaller;
@@ -56,7 +57,8 @@ $features = [
     $feature('laravel-base', 'Laravel', 'core', LaravelBaseInstaller::class, ['hidden' => true]),
     $feature('documentation', 'Documentation', 'core', DocumentationInstaller::class, ['hidden' => true]),
     $feature('manifest', 'Starter Manifest', 'core', ManifestInstaller::class, ['hidden' => true]),
-    $feature('cursor-rules', 'Cursor Rules', 'core', DocumentationInstaller::class, ['hidden' => true]),
+    $feature('agent-rules', 'Agent Rules', 'core', DocumentationInstaller::class, ['hidden' => true]),
+    $feature('ai-skills', 'AI Skills', 'core', AiSkillsInstaller::class, ['hidden' => true]),
     $feature('service-layer', 'Service Layer', 'architecture', ServiceLayerInstaller::class),
     $feature('action', 'Action Pattern', 'architecture', ActionInstaller::class),
     $feature('dto-custom', 'Custom DTO', 'architecture', DtoInstaller::class),

@@ -45,6 +45,7 @@ it('normalizes selected options into feature ids', function () {
     ]));
 
     expect($config->features)->toContain('laravel-base')
+        ->and($config->features)->toContain('ai-skills')
         ->and($config->features)->toContain('architecture-mvc-service')
         ->and($config->features)->toContain('service-layer')
         ->and($config->features)->toContain('action')

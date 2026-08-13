@@ -8,3 +8,4 @@
 *.phar
 /storage/*.key
 .env
+LARAVEL_STARTER_BUILDER.md

@@ -37,7 +37,8 @@ class ConfigNormalizer
             'laravel-base',
             'documentation',
             'manifest',
-            'cursor-rules',
+            'agent-rules',
+            'ai-skills',
         ];
 
         $architecture = $config->architecture;

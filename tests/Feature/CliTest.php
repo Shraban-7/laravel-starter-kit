@@ -65,7 +65,9 @@ it('generates a sqlite blade project with the fake creator', function () {
         ->and(is_file($destination.DIRECTORY_SEPARATOR.'starter.json'))->toBeTrue()
         ->and(is_file($destination.DIRECTORY_SEPARATOR.'AI_CONTEXT.md'))->toBeTrue()
         ->and(is_file($destination.DIRECTORY_SEPARATOR.'app'.DIRECTORY_SEPARATOR.'Services'.DIRECTORY_SEPARATOR.'UserService.php'))->toBeTrue()
-        ->and(is_file($destination.DIRECTORY_SEPARATOR.'.cursor'.DIRECTORY_SEPARATOR.'rules'.DIRECTORY_SEPARATOR.'architecture.mdc'))->toBeTrue();
+        ->and(is_file($destination.DIRECTORY_SEPARATOR.'.agent'.DIRECTORY_SEPARATOR.'rules'.DIRECTORY_SEPARATOR.'architecture.mdc'))->toBeTrue()
+        ->and(is_file($destination.DIRECTORY_SEPARATOR.'.agent'.DIRECTORY_SEPARATOR.'skills'.DIRECTORY_SEPARATOR.'laravel'.DIRECTORY_SEPARATOR.'SKILL.md'))->toBeTrue()
+        ->and(is_file($destination.DIRECTORY_SEPARATOR.'.agent'.DIRECTORY_SEPARATOR.'skills'.DIRECTORY_SEPARATOR.'frontend'.DIRECTORY_SEPARATOR.'SKILL.md'))->toBeTrue();
 });
 
 it('generates a next.js monorepo layout', function () {

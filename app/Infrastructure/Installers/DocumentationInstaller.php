@@ -37,12 +37,12 @@ class DocumentationInstaller extends AbstractInstaller
             $this->write($context, 'DOCKER.md', "# Docker\n\n```bash\ndocker compose up -d\n```\n");
         }
 
-        $this->cursorRules($context);
+        $this->agentRules($context);
     }
 
     public function plannedFiles(StarterConfig $config): array
     {
-        return ['README.md', 'STARTER.md', 'AI_CONTEXT.md', '.cursor/rules/architecture.mdc'];
+        return ['README.md', 'STARTER.md', 'AI_CONTEXT.md', '.agent/rules/architecture.mdc'];
     }
 
     private function readme(StarterConfig $config, string $backend, string $frontend): string
@@ -69,6 +69,13 @@ php artisan migrate
 ```
 
 Frontend: `{$frontend}`
+
+## AI skills
+
+This project includes agent skills in `.agent/skills/`:
+
+- `laravel` — backend, Eloquent, tests, architecture
+- `frontend` — {$config->frontend} UI and CRUD
 MD;
     }
 
@@ -95,10 +102,11 @@ Rules:
 - Do not bypass domain boundaries.
 - Never expose secrets.
 - Follow the generated architecture.
+- Agent skills live in `.agent/skills/` (Laravel + frontend).
 MD;
     }
 
-    private function cursorRules(StarterContext $context): void
+    private function agentRules(StarterContext $context): void
     {
         $config = $context->config;
         $rules = [
@@ -110,7 +118,7 @@ MD;
         ];
 
         foreach ($rules as $name => $body) {
-            $this->write($context, ".cursor/rules/{$name}.mdc", <<<MDC
+            $this->write($context, ".agent/rules/{$name}.mdc", <<<MDC
 ---
 description: {$name} conventions for this generated project
 globs:

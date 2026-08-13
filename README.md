@@ -13,6 +13,15 @@ php laravel-starter validate --config=starter.yaml
 
 Generate only what you select. No unused packages, directories, or patterns.
 
+## AI skills
+
+This repo and every generated project ship agent skills:
+
+- `.agent/skills/laravel` — Eloquent, requests, policies, Pest, architecture
+- `.agent/skills/frontend` — Blade/Livewire/Inertia/React/Vue/Next/Nuxt UI and CRUD
+
+Generated apps also get `.agent/rules/` plus `AI_CONTEXT.md`.
+
 ## Requirements
 
 - PHP 8.3+ to run the generator
